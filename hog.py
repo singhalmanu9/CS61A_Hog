@@ -309,9 +309,16 @@ def make_averaged(fn, num_samples=1000):
     >>> averaged_dice()
     3.75
     """
-    # BEGIN PROBLEM 7
-    "*** REPLACE THIS LINE ***"
-    # END PROBLEM 7
+    def averager(*args):
+        total = 0
+        counter = 1 
+        while counter <= num_samples:
+            total += fn(*args)
+            counter += 1
+        return total / num_samples
+
+    return averager
+
 
 
 def max_scoring_num_rolls(dice=six_sided, num_samples=1000):
@@ -323,9 +330,23 @@ def max_scoring_num_rolls(dice=six_sided, num_samples=1000):
     >>> max_scoring_num_rolls(dice)
     10
     """
-    # BEGIN PROBLEM 8
-    "*** REPLACE THIS LINE ***"
-    # END PROBLEM 8
+
+    num_roles = 1
+    best_num_roles = 10
+    average_score = 0
+
+    current_num_rolls_score = lambda num_roles: make_averaged(roll_dice,num_samples)(num_roles,dice)
+
+
+    while num_roles <= 10:
+        if current_num_rolls_score (num_roles) >  average_score:
+            average_score = current_num_rolls_score(num_roles)
+            best_num_roles = num_roles
+        elif current_num_rolls_score (num_roles) == average_score:
+            best_num_roles = min(num_roles, best_num_roles)
+        num_roles += 1
+
+    return best_num_roles
 
 
 def winner(strategy0, strategy1):
@@ -373,10 +394,12 @@ def bacon_strategy(score, opponent_score, margin=8, num_rolls=4):
     """This strategy rolls 0 dice if that gives at least MARGIN points,
     and rolls NUM_ROLLS otherwise.
     """
-    # BEGIN PROBLEM 9
-    "*** REPLACE THIS LINE ***"
-    return 4  # Replace this statement
-    # END PROBLEM 9
+    
+    if hogtimus_prime(free_bacon(opponent_score)) >= margin:
+        return 0
+    else:
+        return num_rolls
+
 check_strategy(bacon_strategy)
 
 
@@ -395,11 +418,30 @@ check_strategy(swap_strategy)
 def final_strategy(score, opponent_score):
     """Write a brief description of your final strategy.
 
+    ALGORITHIM BRUH:
+    
+    this is all based around swap_strategy and giving it optimum variables 
+
+    TO DO:
+        -optomize the margin think hog wild, think how hog wild relates to the num_rolls
+        -think about pork chop as optimizing the dice rolled
+
+    What it is doing already:
+        -num_rolls is optimized using max_scoring_num_rolls function already written
+        -HELLO
+
+
     *** YOUR DESCRIPTION HERE ***
     """
     # BEGIN PROBLEM 11
-    "*** REPLACE THIS LINE ***"
-    return 4  # Replace this statement
+
+
+
+   
+
+   swap_strategy(score, opponent_score, margin = 8, max_scoring_num_rolls(dice=six_sided, num_samples=1000))
+
+  
     # END PROBLEM 11
 check_strategy(final_strategy)
 
