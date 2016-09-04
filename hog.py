@@ -166,7 +166,7 @@ def pork_chop(dice_swapped, strategy0, strategy1, score0, score1, player):
         if strategy1(score1, score0) == -1:
             return not dice_swapped, score1
         else:
-            return False, score1
+            return dice_swapped, score1
 
 def swine_swap(score0, score1):
     if score0 == 2* score1 or score1 == 2* score0:
@@ -372,7 +372,7 @@ def average_win_rate(strategy, baseline=always_roll(4)):
 
 def run_experiments():
     """Run a series of strategy experiments and report results."""
-    if True:  # Change to False when done finding max_scoring_num_rolls
+    if False:  # Change to False when done finding max_scoring_num_rolls
         six_sided_max = max_scoring_num_rolls(six_sided)
         print('Max scoring num rolls for six-sided dice:', six_sided_max)
         rerolled_max = max_scoring_num_rolls(reroll(six_sided))
@@ -384,7 +384,7 @@ def run_experiments():
     if False:  # Change to True to test bacon_strategy
         print('bacon_strategy win rate:', average_win_rate(bacon_strategy))
 
-    if False:  # Change to True to test swap_strategy
+    if True:  # Change to True to test swap_strategy
         print('swap_strategy win rate:', average_win_rate(swap_strategy))
 
     "*** You may add additional experiments as you wish ***"
@@ -413,10 +413,8 @@ def swap_strategy(score, opponent_score, margin=8, num_rolls=4):
     # BEGIN PROBLEM 10
     if hogtimus_prime(free_bacon(opponent_score)) == 2*opponent_score:
         return 0
-    elif hogtimus_prime(free_bacon(opponent_score)) >= margin:
-        return 0
     else:
-        return num_rolls
+        return bacon_strategy(score, opponent_score, margin, num_rolls)
     # END PROBLEM 10
 
 check_strategy(swap_strategy)
@@ -425,7 +423,7 @@ check_strategy(swap_strategy)
 def final_strategy(score, opponent_score):
     """Write a brief description of your final strategy.
 
-    ALGORITHIM BRUH:
+    ALGORITHM BRUH:
 
     this is all based around swap_strategy and giving it optimum variables
 
