@@ -411,10 +411,15 @@ def swap_strategy(score, opponent_score, margin=8, num_rolls=4):
     NUM_ROLLS.
     """
     # BEGIN PROBLEM 10
-    "*** REPLACE THIS LINE ***"
-    return 4  # Replace this statement
+    if hogtimus_prime(free_bacon(opponent_score)) == 2*opponent_score:
+        return 0
+    elif hogtimus_prime(free_bacon(opponent_score)) >= margin:
+        return 0
+    else:
+        return num_rolls
     # END PROBLEM 10
-    check_strategy(swap_strategy)
+
+check_strategy(swap_strategy)
 
 
 def final_strategy(score, opponent_score):
@@ -425,7 +430,6 @@ def final_strategy(score, opponent_score):
     this is all based around swap_strategy and giving it optimum variables
 
     TO DO:
-        -optomize the margin think hog wild, think how hog wild relates to the num_rolls
         -think about pork chop as optimizing the dice rolled
 
     What it is doing already:
@@ -445,7 +449,8 @@ def final_strategy(score, opponent_score):
 
 
     # END PROBLEM 11
-    check_strategy(final_strategy)
+
+# check_strategy(final_strategy)
 
 
 ##########################
