@@ -430,6 +430,7 @@ def final_strategy(score, opponent_score):
     this is all based around swap_strategy and giving it optimum variables
 
     TO DO:
+        -optimize the margin think hog wild, think how hog wild relates to the num_rolls
         -think about pork chop as optimizing the dice rolled
 
     What it is doing already:
