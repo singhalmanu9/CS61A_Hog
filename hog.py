@@ -292,7 +292,9 @@ def check_strategy(strategy, goal=GOAL_SCORE):
     AssertionError: strategy(102, 115) returned 100 (invalid number of rolls)
     """
     # BEGIN PROBLEM 6
-    "*** REPLACE THIS LINE ***"
+    for i in range(goal + 1):
+        for j in range(goal + 1):
+            check_strategy_roll(i, j, strategy(i, j))
     # END PROBLEM 6
 
 
@@ -311,7 +313,7 @@ def make_averaged(fn, num_samples=1000):
     """
     def averager(*args):
         total = 0
-        counter = 1 
+        counter = 1
         while counter <= num_samples:
             total += fn(*args)
             counter += 1
@@ -394,7 +396,7 @@ def bacon_strategy(score, opponent_score, margin=8, num_rolls=4):
     """This strategy rolls 0 dice if that gives at least MARGIN points,
     and rolls NUM_ROLLS otherwise.
     """
-    
+
     if hogtimus_prime(free_bacon(opponent_score)) >= margin:
         return 0
     else:
@@ -412,15 +414,15 @@ def swap_strategy(score, opponent_score, margin=8, num_rolls=4):
     "*** REPLACE THIS LINE ***"
     return 4  # Replace this statement
     # END PROBLEM 10
-check_strategy(swap_strategy)
+    check_strategy(swap_strategy)
 
 
 def final_strategy(score, opponent_score):
     """Write a brief description of your final strategy.
 
     ALGORITHIM BRUH:
-    
-    this is all based around swap_strategy and giving it optimum variables 
+
+    this is all based around swap_strategy and giving it optimum variables
 
     TO DO:
         -optomize the margin think hog wild, think how hog wild relates to the num_rolls
@@ -437,13 +439,13 @@ def final_strategy(score, opponent_score):
 
 
 
-   
 
-   swap_strategy(score, opponent_score, margin = 8, max_scoring_num_rolls(dice=six_sided, num_samples=1000))
+    """ This line is broken, so this I commented it out"""
+    # swap_strategy(score, opponent_score, margin = 8, max_scoring_num_rolls(dice=six_sided, num_samples=1000))
 
-  
+
     # END PROBLEM 11
-check_strategy(final_strategy)
+    check_strategy(final_strategy)
 
 
 ##########################
