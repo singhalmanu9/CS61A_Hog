@@ -429,7 +429,7 @@ def final_strategy(score, opponent_score):
     *** YOUR DESCRIPTION HERE ***
  
     """
-    if score == 0 or opponent_score == 0:
+    if score == 0 :
         return -1
     else:
         return swap_strategy(score, opponent_score, margin = 5, num_rolls = 4)
