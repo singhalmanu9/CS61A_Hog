@@ -20,6 +20,7 @@ def roll_dice(num_rolls, dice=six_sided):
     assert type(num_rolls) == int, 'num_rolls must be an integer.'
     assert num_rolls > 0, 'Must roll at least once.'
 
+    # Keeps track of ever
     number_of_ones = 0;
     sum = 0;
     for i in range(num_rolls):
@@ -45,9 +46,9 @@ def free_bacon(opponent_score):
 
 # Write your prime functions here!
 def is_prime(n):
+    """Determines if N is prime or not."""
 
-
-    """Determines that N is prime and makes sure that 1 returns False"""
+    # ensures 1 returns False
     if n == 1:
         return False
 
@@ -68,6 +69,7 @@ def is_prime(n):
     return True
 
 def next_prime(n):
+    """ Helper function that determines the prime after the number inputted."""
     i = n + 1
     while not is_prime(i):
         i += 1
@@ -75,12 +77,17 @@ def next_prime(n):
 
 
 def hogtimus_prime(n):
+    """ Implements the Hogtimus Prime rule and returns the next highest prime."""
+
     if is_prime(n):
         return next_prime(n)
     else:
         return n
 
 def when_pigs_fly(score,num_rolls):
+    """ Implements the When Pigs Fly rule which reduces the score to the max
+    possible."""
+
     limit = 25 - num_rolls
     return min(limit, score)
 
@@ -118,8 +125,8 @@ def take_turn(num_rolls, opponent_score, dice=six_sided):
 
 def reroll(dice):
     """Return dice that return even outcomes and re-roll odd outcomes of DICE."""
+
     def rerolled():
-        "*** REPLACE THIS LINE ***"
         roll = dice()
         if roll % 2 == 1:
             roll = dice()
@@ -136,11 +143,13 @@ def select_dice(score, opponent_score, dice_swapped):
     DICE_SWAPPED is True if and only if four-sided dice are being used.
     """
 
+    # If the dice should be swapped, then return the 4 sided dice
     if dice_swapped:
         dice = four_sided
     else:
         dice = six_sided
 
+    # The rerolling part of Hog Wild
     if (score + opponent_score) % 7 == 0:
         dice = reroll(dice)
     return dice
@@ -157,6 +166,12 @@ def other(player):
     return 1 - player
 
 def pork_chop(dice_swapped, strategy0, strategy1, score0, score1, player):
+    """This function implements the Pork Chop rule of this game.
+    If the dice are already swapped (e.g. the 4 sided dice are in play),
+    then if -1 is rolled, simply negate it. Also add one to the score of the
+    player that rolled -1.
+    """
+
     if player == 0:
         if strategy0(score0, score1) == -1:
             return not dice_swapped, score0 + 1
@@ -169,6 +184,10 @@ def pork_chop(dice_swapped, strategy0, strategy1, score0, score1, player):
             return dice_swapped, score1 + 1
 
 def swine_swap(score0, score1):
+    """Implements the Swine Swap rule of Hog. If one of the scores is double
+    the other, then swap the scores.
+    """
+
     if score0 == 2* score1 or score1 == 2* score0:
         score0, score1 = score1, score0
     return score0, score1
@@ -194,12 +213,11 @@ def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
         if player == 0:
             num_rolls = strategy0(score0, score1)
 
-            #implements porkchop by calling pork_chop function to apply porkchop conditions and to end turn
+            #implements Pork Chop by calling pork_chop function to apply Pork Chop conditions and to end turn
             if num_rolls == -1:
                 dice_swapped, score0 = pork_chop(dice_swapped, strategy0, strategy1, score0, score1, player)
             else:
                 score0 += take_turn(num_rolls,score1, select_dice(score0, score1, dice_swapped))
-
 
         else:
             num_rolls = strategy1(score1, score0)
@@ -217,7 +235,6 @@ def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
         player = other(player)
 
     return score0, score1
-
 
 #######################
 # Phase 2: Strategies #
@@ -291,11 +308,11 @@ def check_strategy(strategy, goal=GOAL_SCORE):
      ...
     AssertionError: strategy(102, 115) returned 100 (invalid number of rolls)
     """
-    # BEGIN PROBLEM 6
+
+    # Double loop to check over all inputs
     for i in range(goal + 1):
         for j in range(goal + 1):
             check_strategy_roll(i, j, strategy(i, j))
-    # END PROBLEM 6
 
 
 # Experiments
@@ -320,8 +337,6 @@ def make_averaged(fn, num_samples=1000):
         return total / num_samples
 
     return averager
-
-
 
 def max_scoring_num_rolls(dice=six_sided, num_samples=1000):
     """Return the number of dice (1 to 10) that gives the highest average turn
@@ -414,15 +429,13 @@ def swap_strategy(score, opponent_score, margin=8, num_rolls=4):
     NUM_ROLLS.
     """
     # BEGIN PROBLEM 10
-    if (hogtimus_prime(free_bacon(opponent_score))+score) * 2 ==  opponent_score:
+    if (hogtimus_prime(free_bacon(opponent_score)) + score) * 2 == opponent_score:
         return 0
     else:
         return bacon_strategy(score, opponent_score, margin, num_rolls)
     # END PROBLEM 10
 
 check_strategy(swap_strategy)
-
-
 
 def final_strategy(score, opponent_score):
     """Write a brief description of your final strategy.
@@ -441,8 +454,10 @@ def final_strategy(score, opponent_score):
     *** YOUR DESCRIPTION HERE ***
 
     """
-    if score == 0 :
+    if score == 0:
         return -1
+    elif (hogtimus_prime(free_bacon(opponent_score)) + score) == 2*opponent_score:
+        return 1
     else:
         return swap_strategy(score, opponent_score, margin = 5, num_rolls = 4)
 
