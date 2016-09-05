@@ -161,12 +161,13 @@ def pork_chop(dice_swapped, strategy0, strategy1, score0, score1, player):
         if strategy0(score0, score1) == -1:
             return not dice_swapped, score0 + 1
         else:
-            return dice_swapped, score0
+            return dice_swapped, score0 + 1
+    
     else:
         if strategy1(score1, score0) == -1:
-            return not dice_swapped, score1
+            return not dice_swapped, score1 + 1
         else:
-            return False, score1
+            return dice_swapped, score1 + 1
 
 def swine_swap(score0, score1):
     if score0 == 2* score1 or score1 == 2* score0:
@@ -411,7 +412,7 @@ def swap_strategy(score, opponent_score, margin=8, num_rolls=4):
     NUM_ROLLS.
     """
     # BEGIN PROBLEM 10
-    if hogtimus_prime(free_bacon(opponent_score)) == 2*opponent_score:
+    if (hogtimus_prime(free_bacon(opponent_score))+score) * 2 ==  opponent_score:
         return 0
     elif hogtimus_prime(free_bacon(opponent_score)) >= margin:
         return 0
@@ -422,36 +423,19 @@ def swap_strategy(score, opponent_score, margin=8, num_rolls=4):
 check_strategy(swap_strategy)
 
 
+
 def final_strategy(score, opponent_score):
     """Write a brief description of your final strategy.
-
-    ALGORITHIM BRUH:
-
-    this is all based around swap_strategy and giving it optimum variables
-
-    TO DO:
-        -optimize the margin think hog wild, think how hog wild relates to the num_rolls
-        -think about pork chop as optimizing the dice rolled
-
-    What it is doing already:
-        -num_rolls is optimized using max_scoring_num_rolls function already written
-        -HELLO
-
-
     *** YOUR DESCRIPTION HERE ***
+ 
     """
-    # BEGIN PROBLEM 11
+    if score == 0 or opponent_score == 0:
+        return -1
+    else:
+        return swap_strategy(score, opponent_score, margin = 5, num_rolls = 4)
+   
 
-
-
-
-    """ This line is broken, so this I commented it out"""
-    # swap_strategy(score, opponent_score, margin = 8, max_scoring_num_rolls(dice=six_sided, num_samples=1000))
-
-
-    # END PROBLEM 11
-
-# check_strategy(final_strategy)
+check_strategy(final_strategy)
 
 
 ##########################
