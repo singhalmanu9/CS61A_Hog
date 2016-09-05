@@ -161,12 +161,12 @@ def pork_chop(dice_swapped, strategy0, strategy1, score0, score1, player):
         if strategy0(score0, score1) == -1:
             return not dice_swapped, score0 + 1
         else:
-            return dice_swapped, score0
+            return dice_swapped, score0 + 1
     else:
         if strategy1(score1, score0) == -1:
-            return not dice_swapped, score1
+            return not dice_swapped, score1 + 1
         else:
-            return dice_swapped, score1
+            return dice_swapped, score1 + 1
 
 def swine_swap(score0, score1):
     if score0 == 2* score1 or score1 == 2* score0:
