@@ -162,10 +162,6 @@ def pork_chop(dice_swapped, strategy0, strategy1, score0, score1, player):
             return not dice_swapped, score0 + 1
         else:
             return dice_swapped, score0 + 1
-<<<<<<< HEAD
-=======
-    
->>>>>>> origin/master
     else:
         if strategy1(score1, score0) == -1:
             return not dice_swapped, score1 + 1
@@ -388,8 +384,11 @@ def run_experiments():
     if False:  # Change to True to test bacon_strategy
         print('bacon_strategy win rate:', average_win_rate(bacon_strategy))
 
-    if True:  # Change to True to test swap_strategy
+    if False:  # Change to True to test swap_strategy
         print('swap_strategy win rate:', average_win_rate(swap_strategy))
+
+    if True:
+        print('final_strategy win rate:', average_win_rate(final_strategy))
 
     "*** You may add additional experiments as you wish ***"
 
@@ -427,7 +426,6 @@ check_strategy(swap_strategy)
 
 def final_strategy(score, opponent_score):
     """Write a brief description of your final strategy.
-<<<<<<< HEAD
 
     ALGORITHM BRUH:
 
@@ -440,18 +438,14 @@ def final_strategy(score, opponent_score):
     What it is doing already:
         -num_rolls is optimized using max_scoring_num_rolls function already written
         -HELLO
-
-
-=======
->>>>>>> origin/master
     *** YOUR DESCRIPTION HERE ***
- 
+
     """
     if score == 0 :
         return -1
     else:
         return swap_strategy(score, opponent_score, margin = 5, num_rolls = 4)
-   
+
 
 check_strategy(final_strategy)
 

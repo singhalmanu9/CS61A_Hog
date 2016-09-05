@@ -155,13 +155,15 @@ class HogGUI(Frame):
         """
         self.dice_frames = [
             Frame(self).pack(),
+            Frame(self).pack(),
+            Frame(self).pack(),
             Frame(self).pack()
         ]
         self.dice = {
             i: Label(self.dice_frames[i//5]).
                     config(image=HogGUI.IMAGES[6]).
                     pack(side=LEFT)
-            for i in range(10)
+            for i in range(20)
         }
 
     def init_status(self):
@@ -196,17 +198,21 @@ class HogGUI(Frame):
 
     def clear_dice(self):
         """Unpacks (hides) all dice Labels."""
-        for i in range(10):
+        for i in range(20):
             self.dice[i].pack_forget()
 
     def roll(self):
         """Verify and set the number of rolls based on user input. As
         per game rules, a valid number of rolls must be an integer
-        greater than or equal to 0.
+        greater than or equal to -1.
         """
         result = self.roll_entry.text
-        if result.isnumeric() and 10 >= int(result) >= 0:
+        try:
+            rolls = 10 >= int(result) >= -1
+            assert rolls, 'Rolls must be between -1 and 10, inclusive'
             self.roll_verified.set(int(result))
+        except (ValueError, AssertionError) as e:
+            print(e)
 
     def switch(self, who=None):
         """Switches players. self.who is either 0 or 1."""
@@ -234,8 +240,6 @@ class HogGUI(Frame):
         self.s_labels[1].text = s1
         self.roll_label.text = name(self.who) +' will roll:'
         status = self.status_label.text
-        if hog.select_dice(score, opp_score) == hog.four_sided:
-            status += ' Hog Wild!'
         self.status_label.text = status
 
         if self.computer and self.who == self.turn:
@@ -302,7 +306,7 @@ def run_GUI(computer=False):
     root = Tk()
     root.title('The Game of Hog')
     root.minsize(520, 400)
-    root.geometry("520x400")
+    root.geometry("520x600")
 
     # Tkinter only works with GIFs
     HogGUI.IMAGES = {
