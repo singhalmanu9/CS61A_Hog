@@ -22,18 +22,18 @@ def roll_dice(num_rolls, dice=six_sided):
 
     # Keeps track of ever
     number_of_ones = 0;
-    sum = 0;
-    for i in range(num_rolls):
+    total = 0;
+    for roll_number in range(num_rolls):
         roll = dice()
         if roll == 1:
             number_of_ones += 1
 
-        sum += roll
+        total += roll
 
     if not number_of_ones == 0:
         return number_of_ones
     else:
-        return sum
+        return total
 
 
 def free_bacon(opponent_score):
@@ -177,6 +177,10 @@ def pork_chop(dice_swapped, strategy0, strategy1, score0, score1, player):
             return not dice_swapped, score0 + 1
         else:
             return dice_swapped, score0 + 1
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
     else:
         if strategy1(score1, score0) == -1:
             return not dice_swapped, score1 + 1
@@ -210,6 +214,8 @@ def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
     num_rolls = 0
 
     while max(score0, score1) < goal:
+
+        dice_selection = select_dice(score0, score1, dice_swapped)
         if player == 0:
             num_rolls = strategy0(score0, score1)
 
@@ -217,7 +223,7 @@ def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
             if num_rolls == -1:
                 dice_swapped, score0 = pork_chop(dice_swapped, strategy0, strategy1, score0, score1, player)
             else:
-                score0 += take_turn(num_rolls,score1, select_dice(score0, score1, dice_swapped))
+                score0 += take_turn(num_rolls,score1, dice_selection )
 
         else:
             num_rolls = strategy1(score1, score0)
@@ -225,7 +231,7 @@ def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
             if num_rolls == -1:
                 dice_swapped, score1 = pork_chop(dice_swapped,strategy0, strategy1, score0, score1, player)
             else:
-                score1 += take_turn(num_rolls,score0, select_dice(score1, score0, dice_swapped))
+                score1 += take_turn(num_rolls,score0, dice_selection)
 
 
         #implementation of swine_swap
@@ -348,9 +354,8 @@ def max_scoring_num_rolls(dice=six_sided, num_samples=1000):
     10
     """
 
-    num_roles = 1
-    best_num_roles = 10
-    average_score = 0
+    num_roles,best_num_roles,average_score = 1,10,0
+
 
     current_num_rolls_score = lambda num_roles: make_averaged(roll_dice,num_samples)(num_roles,dice)
 
@@ -429,7 +434,13 @@ def swap_strategy(score, opponent_score, margin=8, num_rolls=4):
     NUM_ROLLS.
     """
     # BEGIN PROBLEM 10
+<<<<<<< Updated upstream
     if (hogtimus_prime(free_bacon(opponent_score)) + score) * 2 == opponent_score:
+=======
+    if (hogtimus_prime(free_bacon(opponent_score))+score) * 2 ==  opponent_score:
+        return 0
+    elif hogtimus_prime(free_bacon(opponent_score)) >= margin:
+>>>>>>> Stashed changes
         return 0
     else:
         return bacon_strategy(score, opponent_score, margin, num_rolls)
@@ -437,6 +448,7 @@ def swap_strategy(score, opponent_score, margin=8, num_rolls=4):
 
 check_strategy(swap_strategy)
 
+<<<<<<< Updated upstream
 def final_strategy(score, opponent_score):
     """Write a brief description of your final strategy.
 
@@ -461,6 +473,20 @@ def final_strategy(score, opponent_score):
     else:
         return swap_strategy(score, opponent_score, margin = 5, num_rolls = 4)
 
+=======
+
+
+def final_strategy(score, opponent_score):
+    """Write a brief description of your final strategy.
+    *** YOUR DESCRIPTION HERE ***
+ 
+    """
+    if score == 0 :
+        return -1
+    else:
+        return swap_strategy(score, opponent_score, margin = 5, num_rolls = 4)
+   
+>>>>>>> Stashed changes
 
 check_strategy(final_strategy)
 
